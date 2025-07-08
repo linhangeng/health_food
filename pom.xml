@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <groupId>com.example</groupId>
+    <artifactId>healthyFood</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <modelVersion>4.0.0</modelVersion>
+    <name>healthyFood</name>
+    <description>健康美食网</description>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>hf_gateway</module>
+        <module>hf_service</module>
+        <module>hf_common</module>
+    </modules>
+
+
+    <properties>
+        <!-- jdk版本 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>17</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <!-- springBoot 版本-->
+        <spring.boot.version>3.2.5</spring.boot.version>
+        <!-- springCloud 版本-->
+        <spring.cloud.version>2023.0.0</spring.cloud.version>
+        <spring.cloud.alibaba.version>2023.0.3.1</spring.cloud.alibaba.version>
+        <!--mybatis-plus-->
+        <mybatis-plus.version>3.5.3</mybatis-plus.version>
+        <!-- springDoc-->
+        <webmvc.ui.version>2.6.0</webmvc.ui.version>
+        <!-- mysql-->
+        <mysql.version>8.0.21</mysql.version>
+        <!-- druid-->
+        <druid.version>1.2.3</druid.version>
+        <!--springdoc-->
+        <spring.doc.version>2.2.0</spring.doc.version>
+        <!--aliyun oss-->
+        <oss.version>3.17.4</oss.version>
+        <!-- hutool -->
+        <hutool.version>5.8.11</hutool.version>
+        <!-- lombok -->
+        <lombok.version>1.18.20</lombok.version>
+    </properties>
+
+    <dependencies>
+        <!--hutool-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+
+        <!--lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+            <version>${lombok.version}</version>
+        </dependency>
+
+        <!-- Spring Boot 核心 -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter</artifactId>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework.boot</groupId>-->
+<!--                    <artifactId>spring-boot-starter-logging</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; Log4j 2 依赖 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-log4j2</artifactId>-->
+<!--        </dependency>-->
+    </dependencies>
+
+    <!--  统一版本管理   -->
+    <dependencyManagement>
+        <!--基础版本-->
+        <dependencies>
+            <!--            spring cloud    -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--            springboot  -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--               alibaba cloud    -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- mybatis plus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <!-- spring doc -->
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${webmvc.ui.version}</version>
+            </dependency>
+            <!--mysql-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+            <!-- Druid 数据源 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <!--springdoc-->
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${spring.doc.version}</version>
+            </dependency>
+
+            <!--项目版本-->
+            <dependency>
+                <groupId>com.example</groupId>
+                <artifactId>hf_manage_api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.example</groupId>
+                <artifactId>hf_chat_api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.example</groupId>
+                <artifactId>hf_common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--spring ai框架-->
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>1.0.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

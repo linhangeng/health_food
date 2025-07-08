@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="hf_common" />
+        <module name="hf_manage" />
+        <module name="hf_manage_api" />
+        <module name="hf_chat" />
+        <module name="hf_chat_api" />
+        <module name="hf_gateway" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="healthyFood" options="" />
+      <module name="hf_chat" options="" />
+      <module name="hf_chat_api" options="" />
+      <module name="hf_common" options="" />
+      <module name="hf_gateway" options="" />
+      <module name="hf_manage" options="" />
+      <module name="hf_service" options="" />
+    </option>
+  </component>
+</project>
