@@ -28,6 +28,12 @@ spring:
             - Path=/manageService/**
           filters:
             - StripPrefix=1
+        - id: msg-service
+          uri: lb://msg-service
+          predicates:
+            - Path=/msgService/**
+          filters:
+            - StripPrefix=1
       globalcors:
         cors-configurations:
           '[/**]':

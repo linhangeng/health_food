@@ -7,12 +7,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="hf_common" />
-        <module name="hf_manage" />
         <module name="hf_manage_api" />
         <module name="hf_chat" />
         <module name="hf_chat_api" />
         <module name="hf_gateway" />
+        <module name="hr_msg" />
+        <module name="hf_common" />
+        <module name="hf_manage" />
+        <module name="hr_msg_api" />
       </profile>
     </annotationProcessing>
   </component>
@@ -25,6 +27,7 @@
       <module name="hf_gateway" options="" />
       <module name="hf_manage" options="" />
       <module name="hf_service" options="" />
+      <module name="hr_msg" options="" />
     </option>
   </component>
 </project>

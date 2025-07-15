@@ -1,13 +1,16 @@
 package com.example.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.json.JSONUtil;
 import com.example.model.dto.ChatDTO;
 import com.example.service.ChatService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.chat.model.Generation;
 import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.deepseek.DeepSeekChatModel;
@@ -16,7 +19,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import reactor.core.Disposable;
-import reactor.core.publisher.Flux;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -35,7 +37,9 @@ import java.util.UUID;
  * projectName: healthyFood
  * copyright(c) ©2003-2024 Talebase. All Rights Reserved.
  */
+
 @Service
+@Slf4j
 public class ChatServiceImpl implements ChatService {
 
     @Resource
@@ -114,6 +118,7 @@ public class ChatServiceImpl implements ChatService {
                                 .id(UUID.randomUUID().toString())
                                 .name("ASSISTANT")
                                 .data(response));
+                        Generation generation = response.getResults().get(0);
                     } catch (IOException e) {
                         sseEmitter.completeWithError(e);
                     }

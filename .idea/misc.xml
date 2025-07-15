@@ -12,6 +12,7 @@
         <option value="$PROJECT_DIR$/hf_service/hf_search/pom.xml" />
         <option value="$PROJECT_DIR$/hf_service/hf_manage/pom.xml" />
         <option value="$PROJECT_DIR$/hf_common/pom.xml" />
+        <option value="$PROJECT_DIR$/hf_service/hr_msg/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

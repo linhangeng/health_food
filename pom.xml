@@ -43,7 +43,7 @@
         <!-- hutool -->
         <hutool.version>5.8.11</hutool.version>
         <!-- lombok -->
-        <lombok.version>1.18.20</lombok.version>
+        <lombok.version>1.18.26</lombok.version>
     </properties>
 
     <dependencies>

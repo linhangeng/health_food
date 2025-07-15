@@ -18,6 +18,8 @@
         <module>hf_chat_api</module>
         <module>hf_manage</module>
         <module>hf_manage_api</module>
+        <module>hr_msg</module>
+        <module>hr_msg_api</module>
     </modules>
 
     <dependencies>
