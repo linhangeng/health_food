@@ -1,7 +1,12 @@
 package com.example.util;
 
+import cn.hutool.core.collection.CollUtil;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.oss.OSSException;
+import com.aliyun.oss.common.comm.ResponseMessage;
+import com.aliyun.oss.model.DeleteObjectsRequest;
+import com.aliyun.oss.model.DeleteObjectsResult;
 import com.example.config.OssProperties;
 import com.example.enums.EnvEnum;
 import jakarta.annotation.PostConstruct;
@@ -14,7 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName OssUtil
@@ -63,6 +70,24 @@ public class OssUtil {
         } catch (IOException e) {
             log.error("文件上传失败", e);
             throw new RuntimeException("文件上传失败", e);
+        }
+    }
+
+
+    /**
+     * 删除文件
+     * @param
+     * @Author sheng.lin
+     * @Date 2025/7/15
+     * @return: java.lang.Boolean
+     * @Version  1.0
+     * @修改记录
+     */
+    public void batchDelFile(List<String> keys,String bucketName) {
+        try {
+            ossClient.deleteObjects(new DeleteObjectsRequest(bucketName).withKeys(keys));
+        }catch (OSSException e){
+            log.error("删除文件失败！",e);
         }
     }
 
@@ -119,5 +144,21 @@ public class OssUtil {
             // 开发/测试用公网
             return ossProperties.getEndpointInternal();
         }
+    }
+
+    public static void main(String[] args) {
+        List<Integer> list1 = new ArrayList<>();
+        list1.add(1);
+        list1.add(2);
+        list1.add(3);
+
+        List<Integer> list2 = new ArrayList<>();
+        list2.add(4);
+        list2.add(5);
+        list2.add(6);
+        List<Integer> list3 =new ArrayList<>(CollUtil.subtract(list1, list2).stream().toList());
+        list3.forEach(e->{
+            System.out.println(e);
+        });
     }
 }

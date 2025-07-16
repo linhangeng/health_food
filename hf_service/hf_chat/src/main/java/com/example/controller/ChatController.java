@@ -1,7 +1,7 @@
 package com.example.controller;
 
 import com.example.model.dto.ChatDTO;
-import com.example.protocol.ApiServiceResponse;
+import com.example.protocol.ServiceResponse;
 import com.example.service.ChatService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
-import reactor.core.publisher.Flux;
-
-import java.util.List;
 
 /**
  * @ClassName SearchController
@@ -40,8 +37,8 @@ public class ChatController {
 
     @PostMapping("/chat")
     @Operation(summary = "聊天")
-    public ApiServiceResponse<ChatResponse> chat(@RequestBody ChatDTO chatDto){
-        return new ApiServiceResponse<>(chatService.chat(chatDto));
+    public ServiceResponse<ChatResponse> chat(@RequestBody ChatDTO chatDto){
+        return new ServiceResponse<>(chatService.chat(chatDto));
     }
 
     @PostMapping(value = "/chatStream",produces = MediaType.TEXT_EVENT_STREAM_VALUE )

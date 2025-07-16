@@ -1,12 +1,11 @@
 package com.example.controller;
 
-import com.example.protocol.ApiServiceResponse;
+import com.example.protocol.ServiceResponse;
 import com.example.service.SendUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,7 +30,7 @@ public class MsgController {
 
     @GetMapping("/sendToUser")
     @Operation(summary = "发送消息到客户端")
-    public ApiServiceResponse<String> sendToUser(@RequestParam("userId") String userId, @RequestParam("msg") String msg) {
-        return new ApiServiceResponse<>(sendUserService.sendToUser(userId, msg));
+    public ServiceResponse<String> sendToUser(@RequestParam("userId") String userId, @RequestParam("msg") String msg) {
+        return new ServiceResponse<>(sendUserService.sendToUser(userId, msg));
     }
 }

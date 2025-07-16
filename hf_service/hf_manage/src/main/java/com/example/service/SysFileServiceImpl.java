@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -60,6 +61,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
      */
     @Override
     public Boolean upload(MultipartFile file) {
+        checkIsSameFileName(file.getOriginalFilename());
         // 入库
         SysFile sysFile = new SysFile();
         sysFile.setUploadSource(UploadSource.ALIBABA_OSS.getCode());
@@ -70,6 +72,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
             String path = ossUtil.uploadFileByMul(file, ossProperties.getBucketName(), objectName, true);
             sysFile.setFileName(file.getOriginalFilename());
             sysFile.setFileSize((int) file.getSize());
+            sysFile.setUploadName(objectName);
             sysFile.setFileStatus(SysFileStatusEnum.UPLOADED.getCode());
             sysFile.setFileUrl(path);
             sysFile.setCreateTime(System.currentTimeMillis());
@@ -98,13 +101,19 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
         QueryWrapper<SysFile> queryWrapper = new QueryWrapper<>();
         queryWrapper.in("rec_id", fileIdList);
         List<SysFile> list = list(queryWrapper);
-        if (ObjectUtil.isNotEmpty(list)) {
-            list.forEach(e -> {
-                e.setFileStatus(SysFileStatusEnum.DELETED.getCode());
-            });
-            return updateBatchById(list);
+        if (ObjectUtil.isEmpty(list)){
+            return false;
         }
-        return false;
+        list.forEach(e -> {
+            e.setFileStatus(SysFileStatusEnum.DELETED.getCode());
+        });
+        // 库删除
+        updateBatchById(list);
+        // oss删除,判断是否是同一个桶
+        if (checkIsSameBucket(list)){
+            ossUtil.batchDelFile(list.stream().map(SysFile::getUploadName).toList(), list.get(0).getBucketName());
+        }
+        return true;
     }
 
 
@@ -159,6 +168,41 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
         }
         return extension;
     }
+
+
+    /**
+     * 检查文件是否重名
+     * @param fileName
+     * @Author sheng.lin
+     * @Date 2025/7/16
+     * @return: void
+     * @Version  1.0
+     * @修改记录
+     */
+    private void checkIsSameFileName(String fileName) {
+        QueryWrapper<SysFile> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("file_name", fileName);
+        long count = count(queryWrapper);
+        if (count != 0) {
+            throw new WrappedException(BizEnums.CUSTOM_ERROR, "文件名已存在");
+        }
+    }
+
+
+    /**
+     *
+     * @param sysFileList
+     * @Author sheng.lin
+     * @Date 2025/7/16
+     * @return: java.lang.Boolean
+     * @Version  1.0
+     * @修改记录
+     */
+    private Boolean checkIsSameBucket(List<SysFile> sysFileList){
+        Set<String> bucketNameSet = sysFileList.stream().map(SysFile::getBucketName).collect(Collectors.toSet());
+        return ObjectUtil.equal(bucketNameSet.size(), 1);
+    }
+
 
 
 }

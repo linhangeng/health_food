@@ -1,5 +1,7 @@
 package com.example.exception;
 
+import lombok.Data;
+
 /**
  * @ClassName WrappedException
  * @Author sheng.lin
@@ -11,6 +13,7 @@ package com.example.exception;
  * projectName: healthyFood
  * copyright(c) ©2003-2024 Talebase. All Rights Reserved.
  */
+@Data
 public class WrappedException extends RuntimeException {
     private ExceptionEnums errEnum;
     private String errMsg;

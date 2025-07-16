@@ -2,10 +2,8 @@ package com.example.feignImpl;
 
 import com.example.feign.FileFeign;
 import com.example.protocol.ApiServiceResponse;
-import com.example.service.SysFileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

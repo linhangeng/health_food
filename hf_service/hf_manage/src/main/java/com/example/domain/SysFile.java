@@ -29,6 +29,9 @@ public class SysFile implements Serializable {
     @Schema(description = "上传位置")
     private String uploadSource;
 
+    @Schema(description = "远程名称")
+    private String uploadName;
+
     @Schema(description = "桶名")
     private String bucketName;
 

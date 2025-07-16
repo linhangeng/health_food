@@ -55,47 +55,20 @@ public class ApiServiceResponse<T> {
         return serviceResponse;
     }
 
-    /**
-     * 成功时返回 减少new
-     *
-     * @param data
-     * @Author labriel
-     * @Date 2024/3/27
-     * @return: com.talebase.common.core.base.ServiceResponse
-     * @Version 1.0
-     * @修改记录
-     */
+
     public static ApiServiceResponse success(Object data) {
         ApiServiceResponse result = new ApiServiceResponse();
         result.setResponse(data);
         return result;
     }
 
-    /**
-     * 成功时返回 减少new
-     *
-     * @Author labriel
-     * @Date 2024/3/27
-     * @return: com.talebase.common.core.base.ServiceResponse
-     * @Version 1.0
-     * @修改记录
-     */
+
     public static ApiServiceResponse success() {
         ApiServiceResponse result = new ApiServiceResponse();
         return result;
     }
 
-    /**
-     * 失败处理
-     *
-     * @param code
-     * @param message
-     * @Author labriel
-     * @Date 2024/4/30
-     * @return: com.talebase.protocol.ServiceResponse
-     * @Version 1.0
-     * @修改记录
-     */
+
     public static ApiServiceResponse fail(Integer code, String message) {
         ApiServiceResponse result = new ApiServiceResponse();
         result.setCode(code);

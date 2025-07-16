@@ -24,10 +24,10 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <!-- springBoot 版本-->
-        <spring.boot.version>3.2.5</spring.boot.version>
+        <spring.boot.version>3.0.2</spring.boot.version>
         <!-- springCloud 版本-->
-        <spring.cloud.version>2023.0.0</spring.cloud.version>
-        <spring.cloud.alibaba.version>2023.0.3.1</spring.cloud.alibaba.version>
+        <spring.cloud.version>2022.0.0</spring.cloud.version>
+        <spring.cloud.alibaba.version>2022.0.0.0</spring.cloud.alibaba.version>
         <!--mybatis-plus-->
         <mybatis-plus.version>3.5.3</mybatis-plus.version>
         <!-- springDoc-->
