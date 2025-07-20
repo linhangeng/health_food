@@ -1,6 +1,6 @@
 package com.example.controller;
 
-import com.example.protocol.ServiceResponse;
+import com.example.protocol.ApiServiceResponse;
 import com.example.service.SendUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,7 +30,7 @@ public class MsgController {
 
     @GetMapping("/sendToUser")
     @Operation(summary = "发送消息到客户端")
-    public ServiceResponse<String> sendToUser(@RequestParam("userId") String userId, @RequestParam("msg") String msg) {
-        return new ServiceResponse<>(sendUserService.sendToUser(userId, msg));
+    public ApiServiceResponse<String> sendToUser(@RequestParam("userId") String userId, @RequestParam("msg") String msg) {
+        return new ApiServiceResponse<>(sendUserService.sendToUser(userId, msg));
     }
 }
