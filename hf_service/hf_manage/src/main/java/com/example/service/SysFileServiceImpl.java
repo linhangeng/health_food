@@ -11,15 +11,23 @@ import com.example.exception.BizEnums;
 import com.example.exception.WrappedException;
 import com.example.mapper.SysFileMapper;
 import com.example.model.dto.SysFileDTO;
+import com.example.strategy.excel.ExcelContext;
+import com.example.strategy.excel.ExcelExportStrategy;
+import com.example.strategy.excel.ExcelExportStrategyFactory;
 import com.example.model.vo.SysFileVO;
-import com.example.service.SysFileService;
+import com.example.util.LocalDateTimeUtils;
 import com.example.util.OssUtil;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -47,7 +55,6 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
     OssUtil ossUtil;
     @Resource
     OssProperties ossProperties;
-
 
     /**
      * 上传视频/音频文件
@@ -101,7 +108,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
         QueryWrapper<SysFile> queryWrapper = new QueryWrapper<>();
         queryWrapper.in("rec_id", fileIdList);
         List<SysFile> list = list(queryWrapper);
-        if (ObjectUtil.isEmpty(list)){
+        if (ObjectUtil.isEmpty(list)) {
             return false;
         }
         list.forEach(e -> {
@@ -110,7 +117,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
         // 库删除
         updateBatchById(list);
         // oss删除,判断是否是同一个桶
-        if (checkIsSameBucket(list)){
+        if (checkIsSameBucket(list)) {
             ossUtil.batchDelFile(list.stream().map(SysFile::getUploadName).toList(), list.get(0).getBucketName());
         }
         return true;
@@ -150,6 +157,31 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 
 
     /**
+     * 文件数据导出
+     *
+     * @param
+     * @Author sheng.lin
+     * @Date 2025/7/20
+     * @return: java.lang.Boolean
+     * @Version 1.0
+     * @修改记录
+     */
+    @Override
+    public void export(HttpServletResponse httpServletResponse) {
+        long count = count();
+        if (count <= 0) {
+            return ;
+        }
+        // 开始导出
+        ExcelExportStrategy<T> strategy = ExcelExportStrategyFactory.getStrategy(count);
+        ExcelContext excelContext = new ExcelContext();
+        excelContext.setSysFileService(this);
+        excelContext.setHttpServletResponse(httpServletResponse);
+        strategy.execute(excelContext);
+    }
+
+
+    /**
      * 获取后缀名
      *
      * @param fileName
@@ -172,11 +204,12 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 
     /**
      * 检查文件是否重名
+     *
      * @param fileName
      * @Author sheng.lin
      * @Date 2025/7/16
      * @return: void
-     * @Version  1.0
+     * @Version 1.0
      * @修改记录
      */
     private void checkIsSameFileName(String fileName) {
@@ -190,19 +223,17 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 
 
     /**
-     *
      * @param sysFileList
      * @Author sheng.lin
      * @Date 2025/7/16
      * @return: java.lang.Boolean
-     * @Version  1.0
+     * @Version 1.0
      * @修改记录
      */
-    private Boolean checkIsSameBucket(List<SysFile> sysFileList){
+    private Boolean checkIsSameBucket(List<SysFile> sysFileList) {
         Set<String> bucketNameSet = sysFileList.stream().map(SysFile::getBucketName).collect(Collectors.toSet());
         return ObjectUtil.equal(bucketNameSet.size(), 1);
     }
-
 
 
 }

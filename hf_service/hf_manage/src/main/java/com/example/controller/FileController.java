@@ -7,6 +7,7 @@ import com.example.service.SysFileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,6 +48,13 @@ public class FileController {
     @Operation(summary = "查询视频音频文件")
     public ApiServiceResponse<List<SysFileVO>> search(@RequestBody SysFileDTO sysFileDto) {
         return new ApiServiceResponse<>(sysFileService.search(sysFileDto));
+    }
+
+
+    @GetMapping("/export")
+    @Operation(summary = "文件数据导出")
+    public void export(HttpServletResponse httpServletResponse){
+        sysFileService.export(httpServletResponse);
     }
 
 }

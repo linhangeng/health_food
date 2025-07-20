@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.domain.SysFile;
 import com.example.model.dto.SysFileDTO;
 import com.example.model.vo.SysFileVO;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -17,10 +18,23 @@ import java.util.List;
  **/
 public interface SysFileService extends IService<SysFile> {
 
+    /**
+     * 上传
+     */
     Boolean upload(MultipartFile file);
 
-
+    /**
+     * 删除
+     */
     Boolean delete(List<Integer> fileIdList);
 
+    /**
+     * 查询
+     */
     List<SysFileVO> search(SysFileDTO sysFileDto);
+
+    /**
+     * 导出
+     */
+    void export(HttpServletResponse httpServletResponse);
 }

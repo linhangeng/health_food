@@ -18,16 +18,16 @@ spring:
       hf_master:
         type: com.alibaba.druid.pool.DruidDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://192.168.246.128:3306/hf_main?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-        username: root
-        password: root
+        url: ${database.master.url}?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+        username: ${database.master.user}
+        password: ${database.master.password}
         # 从数据库配置
       hf_slave:
         type: com.alibaba.druid.pool.DruidDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://192.168.246.129:3306/hf_main?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-        username: root
-        password: root
+        url: ${database.slave.url}?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+        username: ${database.slave.user}
+        password: ${database.slave.password}
     # 规则配置
     rules:
       #      # 主从同步
