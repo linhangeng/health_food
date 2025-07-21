@@ -33,10 +33,10 @@ spring:
 
   # rabbitmq配置
   rabbitmq:
-    host: localhost
+    host: 192.168.220.128
     port: 5672
-    username: guest
-    password: guest
+    username: user
+    password: user123456
     virtual-host: /
     listener:
       simple:

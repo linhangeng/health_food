@@ -155,9 +155,16 @@
                 <artifactId>hf_chat_api</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.example</groupId>
                 <artifactId>hf_common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.example</groupId>
+                <artifactId>hr_msg_api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
