@@ -11,9 +11,9 @@ import lombok.Getter;
 @Getter
 public enum ExcelExportType {
 
-    SMALL("SMALL", 10000L),
+    SMALL("SMALL", 100000L),
     MEDIUM("MEDIUM", 500000L),
-    LARGE("LARGE", 1000000L),
+    LARGE("LARGE", 10000000L),
 
 
     ;

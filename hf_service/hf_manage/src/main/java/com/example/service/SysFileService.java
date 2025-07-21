@@ -37,4 +37,9 @@ public interface SysFileService extends IService<SysFile> {
      * 导出
      */
     void export(HttpServletResponse httpServletResponse);
+
+    /**
+     * 添加测试数据
+     */
+    Boolean saveTestData();
 }

@@ -2,6 +2,7 @@ package com.example.service;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.config.OssProperties;
 import com.example.domain.SysFile;
@@ -11,9 +12,7 @@ import com.example.exception.BizEnums;
 import com.example.exception.WrappedException;
 import com.example.mapper.SysFileMapper;
 import com.example.model.dto.SysFileDTO;
-import com.example.strategy.excel.ExcelContext;
-import com.example.strategy.excel.ExcelExportStrategy;
-import com.example.strategy.excel.ExcelExportStrategyFactory;
+import com.example.strategy.excel.*;
 import com.example.model.vo.SysFileVO;
 import com.example.util.LocalDateTimeUtils;
 import com.example.util.OssUtil;
@@ -55,6 +54,8 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
     OssUtil ossUtil;
     @Resource
     OssProperties ossProperties;
+    @Resource
+    SysFileMapper sysFileMapper;
 
     /**
      * 上传视频/音频文件
@@ -170,14 +171,78 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
     public void export(HttpServletResponse httpServletResponse) {
         long count = count();
         if (count <= 0) {
-            return ;
+            return;
         }
+
         // 开始导出
-        ExcelExportStrategy<T> strategy = ExcelExportStrategyFactory.getStrategy(count);
-        ExcelContext excelContext = new ExcelContext();
-        excelContext.setSysFileService(this);
+        ExcelExportStrategy<SysFileVO> strategy = ExcelExportStrategyFactory.getStrategy(count);
+        ExcelContext<SysFileVO> excelContext = new ExcelContext<>();
+        excelContext.setFileName(URLEncoder.encode("文件数据", StandardCharsets.UTF_8));
+        excelContext.setSheetName("文件信息");
+        excelContext.setClazz(SysFileVO.class);
         excelContext.setHttpServletResponse(httpServletResponse);
+        if (strategy instanceof SmallExcelExportStrategy) {
+            log.info("进入小数据量导出");
+            // 小于1w
+            List<SysFile> sysFiles = list();
+            List<SysFileVO> sysFileVOS = new ArrayList<>();
+            sysFiles.forEach(e -> {
+                SysFileVO sysFileVO = new SysFileVO();
+                BeanUtils.copyProperties(e, sysFileVO);
+                if (ObjectUtil.isNotEmpty(e.getCreateTime())) {
+                    sysFileVO.setCreateTime(LocalDateTimeUtils.format(LocalDateTimeUtils.fromMillis(e.getCreateTime()), LocalDateTimeUtils.YMD_HMS));
+                }
+                sysFileVOS.add(sysFileVO);
+            });
+            excelContext.setDataList(sysFileVOS);
+        } else if (strategy instanceof MediumExcelExportStrategy) {
+            // 大于1w小于5w
+            log.info("进入中数据量导出");
+            excelContext.setPageSize(5000);
+            excelContext.setFetchFunc((pageNum, pageSize) -> {
+                QueryWrapper<SysFile> queryWrapper = new QueryWrapper<>();
+                queryWrapper.eq("file_status",SysFileStatusEnum.UPLOADED.getCode());
+                List<SysFile> records = sysFileMapper
+                        .selectPage(new Page<>(pageNum, pageSize), queryWrapper)
+                        .getRecords();
+                return records.stream().map(file -> {
+                    SysFileVO vo = new SysFileVO();
+                    BeanUtils.copyProperties(file, vo);
+                    return vo;
+                }).collect(Collectors.toList());
+            });
+        } else if (strategy instanceof LargeExcelExportStrategy) {
+            // 大于5w
+            log.info("进入大数据量导出");
+        }
         strategy.execute(excelContext);
+    }
+
+
+    /**
+     * 添加测试数据
+     * @param
+     * @Author sheng.lin
+     * @Date 2025/7/21
+     * @return: java.lang.Boolean
+     * @Version  1.0
+     * @修改记录
+     */
+    @Override
+    public Boolean saveTestData() {
+        List<SysFile> sysFileList = new ArrayList<>();
+        for (int i = 0; i < 50000; i++) {
+            SysFile sysFile = new SysFile();
+            sysFile.setUploadSource(UploadSource.ALIBABA_OSS.getCode());
+            sysFile.setBucketName(ossProperties.getBucketName());
+            sysFile.setFileStatus(SysFileStatusEnum.UPLOADED.getCode());
+            sysFile.setFileName("林"+i);
+            sysFile.setFileUrl("url"+i);
+            sysFile.setCreateTime(LocalDateTimeUtils.toMillis(LocalDateTimeUtils.now()));
+            sysFile.setUploadName(VIDEO_PATH+i);
+            sysFileList.add(sysFile);
+        }
+        return saveBatch(sysFileList);
     }
 
 

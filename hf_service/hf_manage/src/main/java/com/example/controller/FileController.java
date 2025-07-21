@@ -57,4 +57,11 @@ public class FileController {
         sysFileService.export(httpServletResponse);
     }
 
+    @GetMapping("/saveTestData")
+    @Operation(summary = "文件数据导出")
+    public ApiServiceResponse<Boolean> saveTestData(){
+        return new ApiServiceResponse<>(sysFileService.saveTestData());
+
+    }
+
 }
