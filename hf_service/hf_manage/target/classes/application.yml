@@ -81,3 +81,14 @@ mybatis-plus:
   check-config-location: true
   configuration:
     map-underscore-to-camel-case: true
+
+  # rabbitmq配置
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    listener:
+      simple:
+        acknowledge-mode: manual
