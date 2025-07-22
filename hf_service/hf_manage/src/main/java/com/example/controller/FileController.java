@@ -61,7 +61,12 @@ public class FileController {
     @Operation(summary = "文件数据导出")
     public ApiServiceResponse<Boolean> saveTestData(){
         return new ApiServiceResponse<>(sysFileService.saveTestData());
-
     }
 
+
+    @GetMapping("/hello")
+    @Operation(summary = "文件数据导出")
+    public String hello(){
+        return "hello";
+    }
 }

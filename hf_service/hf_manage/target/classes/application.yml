@@ -2,6 +2,14 @@ server:
   port: 7090
 
 spring:
+  servlet:
+    multipart:
+      enabled: true  # 启用文件上传
+      resolve-lazily: false  # 是否延迟解析（默认false）
+      max-file-size: 50MB  # 单个文件最大50MB
+      max-request-size: 200MB  # 整个请求（可能包含多个文件）最大200MB
+#      file-size-threshold: 0  # 所有文件立即写入磁盘
+#      location: ${java.io.tmpdir}  # 使用系统临时目
   # 数据源配置
   shardingsphere:
     mode:
@@ -81,14 +89,7 @@ mybatis-plus:
   check-config-location: true
   configuration:
     map-underscore-to-camel-case: true
-
-  # rabbitmq配置
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-    virtual-host: /
-    listener:
-      simple:
-        acknowledge-mode: manual
+  global-config:
+    db-config:
+      id-type: AUTO
+      table-underline: true

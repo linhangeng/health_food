@@ -49,12 +49,21 @@ public class rabbitmqConfig {
     public Declarables queueDeclarables() {
         List<Declarable> declarables = new ArrayList<>();
         for (QueueConfig cfg : queuesProperties.getQueues()) {
+            // 创建业务队列
             Queue queue = QueueBuilder.durable(cfg.getName())
-                    // 可选：设置死信队列属性
+                    // Dead Letter Queue，DLQ 即死信队列
+                    // 配置当前队列的 “死信交换机”（Dead Letter Exchange）
                     .withArgument("x-dead-letter-exchange", "")
+                    // 配置当前队列的 “死信路由键”（Dead Letter Routing Key）
                     .withArgument("x-dead-letter-routing-key", cfg.getName() + ".dlq")
+                    .withArgument("x-message-ttl", 1000)  // 1s
                     .build();
             declarables.add(queue);
+
+            // 创建对应的死信队列（DLQ）
+            Queue dlq = QueueBuilder.durable(cfg.getName() + ".dlq")
+                    .build();
+            declarables.add(dlq);
         }
         return new Declarables(declarables);
     }

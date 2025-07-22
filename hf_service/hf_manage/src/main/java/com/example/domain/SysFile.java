@@ -3,6 +3,7 @@ package com.example.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.example.domain.baseEntity.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -21,7 +22,7 @@ import java.io.Serializable;
  */
 @Data
 @TableName("sys_file")
-public class SysFile implements Serializable {
+public class SysFile extends BaseEntity implements Serializable {
 
     @TableId(type = IdType.AUTO)
     private Integer recId;
@@ -46,10 +47,4 @@ public class SysFile implements Serializable {
 
     @Schema(description = "文件路径")
     private String fileUrl;
-
-    @Schema(description = "创建人")
-    private Integer creatorId;
-
-    @Schema(description = "创建时间")
-    private Long createTime;
 }

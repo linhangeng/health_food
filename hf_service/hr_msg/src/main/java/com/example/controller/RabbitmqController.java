@@ -1,6 +1,7 @@
 package com.example.controller;
 
 
+import com.example.constants.RabbitMQConstants;
 import com.example.model.dto.Order;
 import com.example.producer.RabbitProducer;
 import com.example.protocol.ApiServiceResponse;
@@ -26,8 +27,14 @@ public class RabbitmqController {
     @GetMapping("/sendMessageByMQ")
     @Operation(summary = "用MQ发送消息")
     public ApiServiceResponse<String> sendMessageByMQ() {
-        rabbitProducer.send("", "order.queue", new Order("1","测试"));
+        rabbitProducer.send("", RabbitMQConstants.ORDER_QUEUE, new Order("1","测试"));
         return ApiServiceResponse.success();
+    }
 
+    @GetMapping("/sendDLQMessageByMQ")
+    @Operation(summary = "用MQ发送消息")
+    public ApiServiceResponse<String> sendDLQMessageByMQ(){
+        rabbitProducer.sendWithTTL(RabbitMQConstants.ORDER_DLQ, new Order("1","测试"),1000);
+        return ApiServiceResponse.success();
     }
 }
