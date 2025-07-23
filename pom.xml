@@ -24,18 +24,18 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <!-- springBoot 版本-->
-        <spring.boot.version>3.0.2</spring.boot.version>
+        <spring.boot.version>3.2.5</spring.boot.version>
         <!-- springCloud 版本-->
-        <spring.cloud.version>2022.0.0</spring.cloud.version>
-        <spring.cloud.alibaba.version>2022.0.0.0</spring.cloud.alibaba.version>
+        <spring.cloud.version>2023.0.1</spring.cloud.version>
+        <spring.cloud.alibaba.version>2023.0.1.0</spring.cloud.alibaba.version>
         <!--mybatis-plus-->
-        <mybatis-plus.version>3.5.3</mybatis-plus.version>
+        <mybatis-plus.version>3.5.12</mybatis-plus.version>
         <!-- springDoc-->
         <webmvc.ui.version>2.6.0</webmvc.ui.version>
         <!-- mysql-->
         <mysql.version>8.0.21</mysql.version>
         <!-- druid-->
-        <druid.version>1.2.3</druid.version>
+        <druid.version>1.2.9</druid.version>
         <!--springdoc-->
         <spring.doc.version>2.2.0</spring.doc.version>
         <!--aliyun oss-->

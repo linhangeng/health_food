@@ -4,6 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONUtil;
 import com.example.model.dto.ChatDTO;
 import com.example.service.ChatService;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.messages.Message;
@@ -14,13 +15,11 @@ import org.springframework.ai.chat.model.Generation;
 import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.deepseek.DeepSeekChatModel;
-import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import reactor.core.Disposable;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
@@ -43,18 +42,12 @@ import java.util.UUID;
 public class ChatServiceImpl implements ChatService {
 
     @Resource
-    @Qualifier(value = "openAiChatModel")
-    OpenAiChatModel openAiChatModel;
-
-    @Resource
     @Qualifier(value = "ds")
     DeepSeekChatModel ds;
 
     @Resource
     @Qualifier(value = "dsStream")
     DeepSeekChatModel dsStream;
-
-
     @Resource
     ChatMemory chatMemory;
 

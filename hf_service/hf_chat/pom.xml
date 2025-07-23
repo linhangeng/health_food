@@ -15,17 +15,10 @@
 
 
     <dependencies>
-
-        <!--webflux-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-webflux</artifactId>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <!--加载 bootstrap文件-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -36,27 +29,11 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-
         <!--nacos配置中心-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
-
-        <!--spring ai-->
-        <!-- https://mvnrepository.com/artifact/org.springframework.ai/spring-ai-openai -->
-        <dependency>
-            <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-openai</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.retry</groupId>
-                    <artifactId>spring-ai-retry</artifactId>
-                </exclusion>
-            </exclusions>
-            <version>1.0.0</version>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-starter-model-deepseek</artifactId>
@@ -64,11 +41,11 @@
         </dependency>
 
 <!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.retry/spring-retry &ndash;&gt;-->
-        <dependency>
-            <groupId>org.springframework.retry</groupId>
-            <artifactId>spring-retry</artifactId>
-            <version>2.0.9</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.retry</groupId>-->
+<!--            <artifactId>spring-retry</artifactId>-->
+<!--            <version>2.0.9</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>com.example</groupId>

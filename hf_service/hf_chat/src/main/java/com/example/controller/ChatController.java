@@ -1,7 +1,7 @@
 package com.example.controller;
 
 import com.example.model.dto.ChatDTO;
-import com.example.protocol.ServiceResponse;
+import com.example.protocol.ApiServiceResponse;
 import com.example.service.ChatService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,13 +37,12 @@ public class ChatController {
 
     @PostMapping("/chat")
     @Operation(summary = "聊天")
-    public ServiceResponse<ChatResponse> chat(@RequestBody ChatDTO chatDto){
-        return new ServiceResponse<>(chatService.chat(chatDto));
+    public ApiServiceResponse<ChatResponse> chat(@RequestBody ChatDTO chatDto){
+        return new ApiServiceResponse<>(chatService.chat(chatDto));
     }
 
     @PostMapping(value = "/chatStream",produces = MediaType.TEXT_EVENT_STREAM_VALUE )
     @Operation(summary = "流式聊天")
-//    public Flux<ChatResponse> chatStream(@RequestBody ChatDTO chatDto){
     public SseEmitter chatStream(@RequestBody ChatDTO chatDto){
         return chatService.chatStream(chatDto);
     }

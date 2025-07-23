@@ -19,7 +19,7 @@ spring:
         user-name: nacos
         password: nacos
         file-extension: yml          # 配置文件格式
-        namespace: public                # 命名空间（可选）
-        group: DEFAULT_GROUP          # 分组（可选）
         refresh-enabled: true         # 开启配置动态刷新
         prefix: dev
+#        namespace: public                # 命名空间（可选）
+#        group: DEFAULT_GROUP          # 分组（可选）

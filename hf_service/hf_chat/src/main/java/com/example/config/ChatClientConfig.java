@@ -1,15 +1,11 @@
 package com.example.config;
 
 import org.springframework.ai.chat.memory.ChatMemory;
-import org.springframework.ai.chat.memory.ChatMemoryRepository;
 import org.springframework.ai.chat.memory.InMemoryChatMemoryRepository;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.deepseek.DeepSeekChatModel;
 import org.springframework.ai.deepseek.DeepSeekChatOptions;
 import org.springframework.ai.deepseek.api.DeepSeekApi;
-import org.springframework.ai.openai.OpenAiChatModel;
-import org.springframework.ai.openai.OpenAiChatOptions;
-import org.springframework.ai.openai.api.OpenAiApi;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,33 +23,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class ChatClientConfig {
-
-
-    /**
-     * openai配置
-     *
-     * @param
-     * @Author sheng.lin
-     * @Date 2025/7/7
-     * @return: org.springframework.ai.deepseek.DeepSeekChatModel
-     * @Version 1.0
-     * @修改记录
-     */
-    @Bean
-    @Qualifier(value = "openAiChatModel")
-    public OpenAiChatModel openAiChatModel() {
-        return OpenAiChatModel.builder()
-                .openAiApi(OpenAiApi.builder()
-                        .baseUrl("https://api.deepseek.com/v1")
-                        .apiKey("Bearer sk-a16f7b1e7d464a2facf1aaa3f50dfc06")
-                        .build())
-                .defaultOptions(OpenAiChatOptions.builder()
-                        // 其他配置
-                        .model("deepseek-chat")
-                        .build())
-                .build();
-
-    }
 
 
     /**

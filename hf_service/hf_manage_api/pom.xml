@@ -6,14 +6,6 @@
         <artifactId>hf-service</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <dependencies>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-annotation</artifactId>
-            <version>3.5.5</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>hf_manage_api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
