@@ -38,8 +38,12 @@ public interface SysFileService extends IService<SysFile> {
      */
     void export(HttpServletResponse httpServletResponse);
 
+
+    Boolean saveSysFile(SysFileDTO sysFileDto);
+
     /**
      * 添加测试数据
      */
     Boolean saveTestData();
+
 }

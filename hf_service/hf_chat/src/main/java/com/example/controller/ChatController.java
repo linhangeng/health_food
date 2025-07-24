@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.model.dto.ChatDTO;
+import com.example.model.dto.HealthyFoodSearchDTO;
 import com.example.protocol.ApiServiceResponse;
 import com.example.service.ChatService;
 import io.swagger.v3.oas.annotations.Operation;

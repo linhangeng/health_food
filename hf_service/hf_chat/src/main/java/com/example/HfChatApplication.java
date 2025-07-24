@@ -14,6 +14,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
         DataSourceTransactionManagerAutoConfiguration.class,
         HibernateJpaAutoConfiguration.class
 })
+@EnableFeignClients("com.example")
 public class HfChatApplication {
     public static void main(String[] args) {
         SpringApplication.run(HfChatApplication.class, args);

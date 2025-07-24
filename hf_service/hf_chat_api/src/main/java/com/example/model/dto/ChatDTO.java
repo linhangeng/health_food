@@ -1,6 +1,9 @@
 package com.example.model.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @ClassName ChatDTO
@@ -14,6 +17,9 @@ import lombok.Data;
  * copyright(c) ©2003-2024 Talebase. All Rights Reserved.
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ChatDTO {
 
     /**

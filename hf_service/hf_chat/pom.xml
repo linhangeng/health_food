@@ -40,12 +40,6 @@
             <version>1.0.0</version>
         </dependency>
 
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.retry/spring-retry &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.retry</groupId>-->
-<!--            <artifactId>spring-retry</artifactId>-->
-<!--            <version>2.0.9</version>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>com.example</groupId>
@@ -60,6 +54,29 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Flexmark Markdown 解析 -->
+        <dependency>
+            <groupId>com.vladsch.flexmark</groupId>
+            <artifactId>flexmark-all</artifactId>
+            <version>0.64.8</version>
+        </dependency>
+        <!-- iText pdfHTML (html2pdf) -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>html2pdf</artifactId>
+            <version>6.1.0</version> <!-- 或者最新版本 -->
+        </dependency>
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>hf_manage_api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>26.0.2</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

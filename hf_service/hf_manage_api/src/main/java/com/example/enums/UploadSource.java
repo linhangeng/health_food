@@ -13,7 +13,8 @@ import lombok.Getter;
 @Getter
 public enum UploadSource {
 
-    ALIBABA_OSS("OSS","阿里云OSS")
+    ALIBABA_OSS("OSS","阿里云OSS"),
+    CONVERT_API("CONVERT_API","格式转换工具")
 
     ;
 

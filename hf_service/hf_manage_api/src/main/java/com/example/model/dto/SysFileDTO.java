@@ -24,11 +24,26 @@ public class SysFileDTO {
     @Schema(description = "上传位置")
     private String uploadSource;
 
+    @Schema(description = "上传名字")
+    private String uploadName;
+
     @Schema(description = "桶名")
     private String bucketName;
 
     @Schema(description = "文件状态")
     private String fileStatus;
+
+    @Schema(description = "url")
+    private String fileUrl;
+
+    @Schema(description = "文件大小")
+    private String fileSize;
+
+
+
+
+
+
 
 
 }

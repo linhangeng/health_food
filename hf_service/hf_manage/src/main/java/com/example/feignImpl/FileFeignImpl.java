@@ -1,10 +1,15 @@
 package com.example.feignImpl;
 
 import com.example.feign.FileFeign;
+import com.example.model.dto.SysFileDTO;
 import com.example.protocol.ApiServiceResponse;
+import com.example.service.SysFileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,15 +27,15 @@ import java.util.List;
  * copyright(c) ©2003-2024 Talebase. All Rights Reserved.
  */
 @RestController
-@RequestMapping("/fileFeign")
 @Tag(name="fileFeign",description = "file外部调用feign管理")
 public class FileFeignImpl implements FileFeign {
 
+    @Resource
+    SysFileService sysFileService;
 
-    @PostMapping("/search")
-    @Operation(summary = "外部查询音频文件接口")
-    public ApiServiceResponse<List<String>> search(){
-        return new ApiServiceResponse<>();
+    @PostMapping("/saveSysFile")
+    @Operation(summary = "外部查询文件存储接口")
+    public ApiServiceResponse<Boolean> saveSysFile(@RequestBody SysFileDTO sysFileDto) {
+        return new ApiServiceResponse<>(sysFileService.saveSysFile(sysFileDto));
     }
-
 }

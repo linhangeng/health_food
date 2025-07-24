@@ -25,6 +25,9 @@ import org.springframework.context.annotation.Configuration;
 public class ChatClientConfig {
 
 
+
+    
+
     /**
      * ds配置
      * @param

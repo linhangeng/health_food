@@ -4,7 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.config.OssProperties;
+import com.example.properties.OssProperties;
 import com.example.domain.SysFile;
 import com.example.enums.SysFileStatusEnum;
 import com.example.enums.UploadSource;
@@ -19,9 +19,7 @@ import com.example.util.OssUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -76,7 +74,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
         sysFile.setBucketName(ossProperties.getBucketName());
         try {
             String extension = getExtension(file.getOriginalFilename());
-            String objectName = VIDEO_PATH + UUID.randomUUID().toString().replaceAll("-", "") + "." + extension;
+            String objectName = UUID.randomUUID().toString().replaceAll("-", "") + "." + extension;
             String path = ossUtil.uploadFileByMul(file, ossProperties.getBucketName(), objectName, true);
             sysFile.setFileName(file.getOriginalFilename());
             sysFile.setFileSize((int) file.getSize());
@@ -216,6 +214,22 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
             log.info("进入大数据量导出");
         }
         strategy.execute(excelContext);
+    }
+
+    /**
+     *
+     * @param sysFileDto
+     * @Author sheng.lin
+     * @Date 2025/7/24
+     * @return: java.lang.Boolean
+     * @Version  1.0
+     * @修改记录
+     */
+    @Override
+    public Boolean saveSysFile(SysFileDTO sysFileDto) {
+        SysFile sysFile = new SysFile();
+        BeanUtils.copyProperties(sysFileDto,sysFile);
+        return save(sysFile);
     }
 
 

@@ -2,12 +2,14 @@ package com.example.feign;
 
 import com.example.exception.BizEnums;
 import com.example.exception.WrappedException;
+import com.example.model.dto.SysFileDTO;
 import com.example.protocol.ApiServiceResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -18,12 +20,13 @@ import java.util.List;
  * @Version 1.0
  * @修改记录
  **/
-@FeignClient(value = "video-service", fallbackFactory = FileFeign.ClientCallBackFactory.class)
+@FeignClient(value = "manage-service",
+        fallbackFactory = FileFeign.ClientCallBackFactory.class)
 public interface FileFeign {
 
 
-    @PostMapping("/videoFeign/search")
-    ApiServiceResponse<List<String>> search();
+    @PostMapping("/saveSysFile")
+    ApiServiceResponse<Boolean> saveSysFile(@RequestBody SysFileDTO sysFileDto);
 
 
     @Component

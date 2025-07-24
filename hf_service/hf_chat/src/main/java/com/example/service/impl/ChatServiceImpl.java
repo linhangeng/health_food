@@ -1,9 +1,9 @@
 package com.example.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.json.JSONUtil;
 import com.example.model.dto.ChatDTO;
 import com.example.service.ChatService;
+
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.memory.ChatMemory;
@@ -64,6 +64,7 @@ public class ChatServiceImpl implements ChatService {
      */
     @Override
     public ChatResponse chat(ChatDTO chatDto) {
+        log.info("用户提问的问题 -> {}", chatDto.getContent());
         buildChatMemory(chatDto);
         // todo 构建对话参数
         ChatOptions chatOptions = ChatOptions.builder()
@@ -178,4 +179,5 @@ public class ChatServiceImpl implements ChatService {
     private void saveChatMemory(ChatDTO chatDto, ChatResponse chatResponse) {
         chatMemory.add(chatDto.getSessionId(), SystemMessage.builder().text(chatResponse.getResult().getOutput().getText()).build());
     }
+
 }
