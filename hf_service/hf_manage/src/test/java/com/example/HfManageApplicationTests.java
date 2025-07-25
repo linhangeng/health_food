@@ -1,13 +1,25 @@
 package com.example;
 
-import org.junit.jupiter.api.Test;
+import com.example.service.RedisService;
+import org.junit.Test;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class HfManageApplicationTests {
+import javax.annotation.Resource;
+
+
+@SpringBootTest(classes = HfManageApplication.class)
+public class HfManageApplicationTests {
+
+    @Autowired
+    RedisService redisService;
+
 
     @Test
-    void contextLoads() {
+    public void redisTest() {
+        redisService.set("111","ccc");
+
     }
 
 }

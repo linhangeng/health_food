@@ -1,4 +1,4 @@
-package com.example.util;
+package com.example.service;
 
 import com.convertapi.client.Config;
 import com.convertapi.client.ConversionResult;
@@ -21,7 +21,7 @@ import java.util.concurrent.CompletableFuture;
  * copyright(c) ©2003-2024 Talebase. All Rights Reserved.
  */
 @Slf4j
-public class ConvertAPIUtil {
+public class ConvertAPIService {
 
     // 生产：Jj9AwYbZemPx1PUOFQyw17szgGV6zKG6
     // 沙盒：01ZxeoVIqejIYeb3ZAIr99npeC914p0T

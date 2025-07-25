@@ -12,9 +12,9 @@ import com.example.model.dto.SysFileDTO;
 import com.example.properties.OssProperties;
 import com.example.service.ChatService;
 import com.example.service.HealthyFoodService;
-import com.example.util.ConvertAPIUtil;
+import com.example.service.ConvertAPIService;
 import com.example.util.MarkdownToPdfOrMdConverterUtil;
-import com.example.util.OssUtil;
+import com.example.service.OssService;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +45,7 @@ public class HealthyFoodServiceImpl implements HealthyFoodService {
     @Resource
     ChatService chatService;
     @Resource
-    OssUtil ossUtil;
+    OssService ossService;
     @Resource
     OssProperties ossProperties;
     @Resource
@@ -161,7 +161,7 @@ public class HealthyFoodServiceImpl implements HealthyFoodService {
         sysFileDTO.setUploadName(objectName);
         sysFileDTO.setFileName(fileName);
         // 生成可访问的md文件，在将md文件转为pdf
-        sysFileDTO.setFileUrl(ConvertAPIUtil.convertToPdf(ossUtil.uploadFileByInputStream(
+        sysFileDTO.setFileUrl(ConvertAPIService.convertToPdf(ossService.uploadFileByInputStream(
                 MarkdownToPdfOrMdConverterUtil.markdownToFile(answer), ossProperties.getTempBucketName(), objectName, true), fileName));
         sysFileDTO.setFileStatus(SysFileStatusEnum.UPLOADED.getCode());
         return sysFileDTO;

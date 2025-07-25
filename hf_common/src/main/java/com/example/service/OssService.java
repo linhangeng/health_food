@@ -1,4 +1,4 @@
-package com.example.util;
+package com.example.service;
 
 import cn.hutool.core.collection.CollUtil;
 import com.aliyun.oss.OSS;
@@ -33,7 +33,7 @@ import java.util.List;
  */
 @Component
 @Slf4j
-public class OssUtil {
+public class OssService {
 
     @Resource
     OssProperties ossProperties;

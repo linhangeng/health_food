@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.model.dto.SysFileDTO;
 import com.example.model.vo.SysFileVO;
 import com.example.protocol.ApiServiceResponse;
+import com.example.service.RedisService;
 import com.example.service.SysFileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,6 +32,8 @@ public class FileController {
 
     @Resource
     SysFileService sysFileService;
+    @Resource
+    RedisService redisService;
 
     @PostMapping("/upload")
     @Operation(summary = "上传视频音频文件")
@@ -67,6 +70,7 @@ public class FileController {
     @GetMapping("/hello")
     @Operation(summary = "文件数据导出")
     public String hello(){
+        redisService.set("hello",1);
         return "hello";
     }
 }

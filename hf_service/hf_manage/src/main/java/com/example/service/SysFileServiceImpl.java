@@ -15,7 +15,6 @@ import com.example.model.dto.SysFileDTO;
 import com.example.strategy.excel.*;
 import com.example.model.vo.SysFileVO;
 import com.example.util.LocalDateTimeUtils;
-import com.example.util.OssUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +48,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
     private static final String VIDEO_PATH = "video/";
 
     @Resource
-    OssUtil ossUtil;
+    OssService ossService;
     @Resource
     OssProperties ossProperties;
     @Resource
@@ -75,7 +74,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
         try {
             String extension = getExtension(file.getOriginalFilename());
             String objectName = UUID.randomUUID().toString().replaceAll("-", "") + "." + extension;
-            String path = ossUtil.uploadFileByMul(file, ossProperties.getBucketName(), objectName, true);
+            String path = ossService.uploadFileByMul(file, ossProperties.getBucketName(), objectName, true);
             sysFile.setFileName(file.getOriginalFilename());
             sysFile.setFileSize((int) file.getSize());
             sysFile.setUploadName(objectName);
@@ -117,7 +116,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
         updateBatchById(list);
         // oss删除,判断是否是同一个桶
         if (checkIsSameBucket(list)) {
-            ossUtil.batchDelFile(list.stream().map(SysFile::getUploadName).toList(), list.get(0).getBucketName());
+            ossService.batchDelFile(list.stream().map(SysFile::getUploadName).toList(), list.get(0).getBucketName());
         }
         return true;
     }
