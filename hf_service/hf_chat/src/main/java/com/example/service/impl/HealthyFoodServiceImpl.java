@@ -21,10 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.stereotype.Service;
 
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -58,7 +56,8 @@ public class HealthyFoodServiceImpl implements HealthyFoodService {
 
     @PostConstruct
     private void init(){
-        dishVideoMap.put("茄子豆角", "https://example.com/videos/eggplant-beans.mp4");
+        // todo
+        dishVideoMap.put("茄子豆角", "https://media.w3.org/2010/05/sintel/trailer.mp4");
         dishVideoMap.put("番茄炒鸡蛋", "https://media.w3.org/2010/05/sintel/trailer.mp4");
     }
 
@@ -74,24 +73,24 @@ public class HealthyFoodServiceImpl implements HealthyFoodService {
      */
     @Override
     public String search(HealthyFoodSearchDTO healthyFoodSearchDto) {
-        // 提问内容
         String content = healthyFoodSearchDto.getContent();
         ChatResponse chatResponse = chatService.chat(ChatDTO.builder()
                 .sessionId(UUID.randomUUID().toString())
                 .content(content).build());
         SysFileDTO sysFileDTO = new SysFileDTO();
         try {
-            // 获取内容
-            String result = chatResponse.getResult().getOutput().getText();
-            log.info("AI回答的内容 -> {}", result);
+            // 获取回答
+            String answer = chatResponse.getResult().getOutput().getText();
+            // 获取菜名
+            String dishName = "";
             if (healthyFoodSearchDto.getIsMakeVideo()) {
-                String dishName = extractDishName(content);
+                dishName = extractDishName(content);
                 if (ObjectUtil.isNotEmpty(dishName)) {
                     // 加入制作视频
-                    result= addMakeVideo(result, dishName);
+                    answer = addMakeVideo(answer, dishName);
                 }
             }
-            sysFileDTO = builSysFileDTO(result);
+            sysFileDTO = builSysFileDTO(answer,dishName);
         } catch (Exception e) {
             sysFileDTO.setFileStatus(SysFileStatusEnum.FAILED.getCode());
             throw new WrappedException(BizEnums.CUSTOM_ERROR, "上传失败");
@@ -99,6 +98,22 @@ public class HealthyFoodServiceImpl implements HealthyFoodService {
             fileFeign.saveSysFile(sysFileDTO);
         }
         return sysFileDTO.getFileUrl();
+    }
+
+
+    /**
+     * 追加提示语
+     * @param content
+     * @Author sheng.lin
+     * @Date 2025/7/25
+     * @return: java.lang.String
+     * @Version  1.0
+     * @修改记录
+     */
+    private String replenish(String content){
+        StringBuilder stringBuilder = new StringBuilder(content);
+        stringBuilder.append("要求：1.要求内容详细；2.每个步骤分割线分开;3.标准Markdown格式返回");
+        return stringBuilder.toString();
     }
 
 
@@ -123,18 +138,6 @@ public class HealthyFoodServiceImpl implements HealthyFoodService {
         } else {
             videoModule.append("暂无该菜品的制作视频参考，敬请期待～");
         }
-//        // 2. 构建 MD 格式的【制作视频参考】模块
-//        StringBuilder videoModule = new StringBuilder();
-//        // 用两个换行符分隔上一个模块（符合 MD 段落分隔规范）
-//        videoModule.append("\n\n### 【制作视频参考】\n");
-//        if (videoUrl != null && !videoUrl.trim().isEmpty()) {
-//            // 符合 MD 图片链接语法：![alt文本](链接)
-//            videoModule.append("![制作视频参考图](").append(videoUrl).append(")");
-//        } else {
-//            // 无视频时，用 MD 普通文本说明
-//            videoModule.append("暂无该菜品的制作视频参考，敬请期待～");
-//        }
-        // 3. 拼接原内容和新模块，返回完整 MD
         log.info("拼接之后的回答->{}", result + videoModule.toString());
         return result + videoModule.toString();
     }
@@ -150,18 +153,16 @@ public class HealthyFoodServiceImpl implements HealthyFoodService {
      * @Version 1.0
      * @修改记录
      */
-    private SysFileDTO builSysFileDTO(String result) {
+    private SysFileDTO builSysFileDTO(String answer, String fileName) {
         SysFileDTO sysFileDTO = new SysFileDTO();
         // 生成远程文件名称
         String objectName = UUID.randomUUID() + ".md";
-        sysFileDTO.setBucketName(ossProperties.getTempBucketName());
-        sysFileDTO.setUploadName(objectName);
-        sysFileDTO.setFileName(objectName);
         sysFileDTO.setUploadSource(UploadSource.CONVERT_API.getCode());
-        // step1 : 生成可访问的md文件，在将md文件转为pdf
+        sysFileDTO.setUploadName(objectName);
+        sysFileDTO.setFileName(fileName);
+        // 生成可访问的md文件，在将md文件转为pdf
         sysFileDTO.setFileUrl(ConvertAPIUtil.convertToPdf(ossUtil.uploadFileByInputStream(
-                MarkdownToPdfOrMdConverterUtil.markdownToFile(result),
-                ossProperties.getTempBucketName(), objectName, true)));
+                MarkdownToPdfOrMdConverterUtil.markdownToFile(answer), ossProperties.getTempBucketName(), objectName, true), fileName));
         sysFileDTO.setFileStatus(SysFileStatusEnum.UPLOADED.getCode());
         return sysFileDTO;
     }
