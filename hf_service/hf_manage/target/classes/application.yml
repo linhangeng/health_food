@@ -17,10 +17,10 @@ spring:
     url: jdbc:shardingsphere:classpath:sharding-jdbc.yml
   data:
     redis:
-      database: 15
-      host: 172.16.1.246
-      port: 6379
-      password: Talebase2017!
+      database: ${database.redis.index}
+      host: ${database.redis.host}
+      port: ${database.redis.port}
+      password: ${database.redis.password}
       jedis:
         pool:
           min-idle: 5

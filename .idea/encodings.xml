@@ -6,6 +6,8 @@
     <file url="file://$PROJECT_DIR$/hf_gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hf_gateway/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hf_gateway/src/main/resources/application.yml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hf_saToken/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hf_saToken/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hf_search/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hf_search/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hf_service/hf_chat/src/main/java" charset="UTF-8" />

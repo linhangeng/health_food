@@ -32,6 +32,12 @@ spring:
             - Path=/msgService/**
           filters:
             - StripPrefix=1
+        - id: saToken-service
+          uri: lb://saToken-service
+          predicates:
+            - Path=/saTokenService/**
+          filters:
+            - StripPrefix=1
       globalcors:
         cors-configurations:
           '[/**]':

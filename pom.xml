@@ -14,6 +14,7 @@
         <module>hf_gateway</module>
         <module>hf_service</module>
         <module>hf_common</module>
+        <module>hf_saToken</module>
     </modules>
 
 
