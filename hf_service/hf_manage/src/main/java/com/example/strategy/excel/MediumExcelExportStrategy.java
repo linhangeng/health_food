@@ -1,8 +1,6 @@
 package com.example.strategy.excel;
 
-import com.example.model.vo.SysFileVO;
-import com.example.util.EasyExcelUtil;
-import org.apache.poi.ss.formula.functions.T;
+import com.example.util.EasyExcelExportUtil;
 
 /**
  * @author linhangeng
@@ -25,7 +23,7 @@ public class MediumExcelExportStrategy<T> implements ExcelExportStrategy<T> {
      */
     @Override
     public void execute(ExcelContext<T> excelContext) {
-        EasyExcelUtil.exportMedium(
+        EasyExcelExportUtil.exportMedium(
                 excelContext.getHttpServletResponse(),
                 excelContext.getFileName(),
                 excelContext.getClazz(),

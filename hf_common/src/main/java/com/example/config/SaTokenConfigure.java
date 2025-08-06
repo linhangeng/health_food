@@ -1,3 +1,4 @@
+/*
 package com.example.config;
 
 import cn.dev33.satoken.interceptor.SaInterceptor;
@@ -7,17 +8,21 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+*/
 /**
  * @ClassName SaTokenConfigure
  * @Author sheng.lin
  * @Date 2025/7/25
  * @Version 1.0
  * @修改记录
- **/
+ **//*
+
+*/
 /*
  * projectName: healthyFood
  * copyright(c) ©2003-2024 Talebase. All Rights Reserved.
- */
+ *//*
+
 @Configuration
 public class SaTokenConfigure implements WebMvcConfigurer {
 
@@ -51,3 +56,4 @@ public class SaTokenConfigure implements WebMvcConfigurer {
     }
 }
 
+*/

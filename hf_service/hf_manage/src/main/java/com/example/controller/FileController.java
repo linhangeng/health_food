@@ -60,6 +60,12 @@ public class FileController {
         sysFileService.export(httpServletResponse);
     }
 
+    @GetMapping("/import")
+    @Operation(summary = "文件数据导入")
+    public void importFileData(@RequestPart("file") MultipartFile file){
+        sysFileService.importFileData(file);
+    }
+
     @GetMapping("/saveTestData")
     @Operation(summary = "文件数据导出")
     public ApiServiceResponse<Boolean> saveTestData(){

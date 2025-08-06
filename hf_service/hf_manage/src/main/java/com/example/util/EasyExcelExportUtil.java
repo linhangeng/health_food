@@ -30,7 +30,7 @@ import java.util.function.BiFunction;
  * copyright(c) ©2003-2024 Talebase. All Rights Reserved.
  */
 @Slf4j
-public class EasyExcelUtil {
+public class EasyExcelExportUtil {
 
 
     /**

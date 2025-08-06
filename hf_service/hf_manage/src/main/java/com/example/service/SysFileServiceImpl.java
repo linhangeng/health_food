@@ -14,6 +14,7 @@ import com.example.mapper.SysFileMapper;
 import com.example.model.dto.SysFileDTO;
 import com.example.strategy.excel.*;
 import com.example.model.vo.SysFileVO;
+import com.example.util.EasyExcelImportUtil;
 import com.example.util.LocalDateTimeUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,8 +23,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -180,7 +183,6 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
         excelContext.setHttpServletResponse(httpServletResponse);
         if (strategy instanceof SmallExcelExportStrategy) {
             log.info("进入小数据量导出");
-            // 小于1w
             List<SysFile> sysFiles = list();
             List<SysFileVO> sysFileVOS = new ArrayList<>();
             sysFiles.forEach(e -> {
@@ -193,7 +195,6 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
             });
             excelContext.setDataList(sysFileVOS);
         } else if (strategy instanceof MediumExcelExportStrategy) {
-            // 大于1w小于5w
             log.info("进入中数据量导出");
             excelContext.setPageSize(5000);
             excelContext.setFetchFunc((pageNum, pageSize) -> {
@@ -209,7 +210,6 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
                 }).collect(Collectors.toList());
             });
         } else if (strategy instanceof LargeExcelExportStrategy) {
-            // 大于5w
             log.info("进入大数据量导出");
         }
         strategy.execute(excelContext);
@@ -256,6 +256,65 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
             sysFileList.add(sysFile);
         }
         return saveBatch(sysFileList);
+    }
+
+
+    /**
+     * 导入
+     * @param file
+     * @Author sheng.lin
+     * @Date 2025/8/5
+     * @return: void
+     * @Version  1.0
+     * @修改记录
+     */
+    @Override
+    public void importFileData(MultipartFile file) {
+        checkFileFormat(file);
+        try {
+            importSmallBatch(file);
+//            EasyExcelImportUtil.importLargeBatch(
+//                    file, // 上传的文件
+//                    SysFileDTO.class, // 实体类
+//                    10000, // 批处理大小（每10000行处理一批）
+//                    batchData -> processBatch(batchData, taskId), // 每批数据的处理器
+//                    () -> finishTask(taskId) // 全部完成后的回调
+//            );
+        } catch (Exception e) {
+            log.error("导入数据错误", e);
+            throw new WrappedException(BizEnums.CUSTOM_ERROR, "导入数据错误");
+        }
+    }
+
+
+
+    /**
+     * 小批量
+     * @param file
+     * @Author sheng.lin
+     * @Date 2025/8/5
+     * @return: void
+     * @Version  1.0
+     * @修改记录
+     */
+    private void importSmallBatch(MultipartFile file) throws IOException {
+        long startTime = System.currentTimeMillis();
+        // 调用工具类的小批量方法，传入文件、实体类、数据处理器
+        EasyExcelImportUtil.importSmallBatch(file, SysFileDTO.class, allData -> {
+            // 1. 数据校验
+            // 2. DTO转实体
+            List<SysFile> sysFiles = allData.stream()
+                    .map(dto -> {
+                        SysFile user = new SysFile();
+                        BeanUtils.copyProperties(dto, user);
+                        return user;
+                    })
+                    .collect(Collectors.toList());
+            // 3. 批量插入数据库（使用工具类的批量插入模板，每1000条一批）
+            saveBatch(sysFiles, 1000);
+            long costTime = System.currentTimeMillis() - startTime;
+            log.info("导入成功，共" + allData.size() + "条，耗时" + costTime + "ms");
+        });
     }
 
 
@@ -313,5 +372,38 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
         return ObjectUtil.equal(bucketNameSet.size(), 1);
     }
 
+
+    /**
+     * 检查文件格式
+     * @param file
+     * @Author sheng.lin
+     * @Date 2025/8/5
+     * @return: void
+     * @Version  1.0
+     * @修改记录
+     */
+    private void checkFileFormat(MultipartFile file){
+        String fileName = file.getOriginalFilename();
+        if (ObjectUtil.isEmpty(fileName)){
+            throw new WrappedException(BizEnums.CUSTOM_ERROR,"文件有误！");
+        }
+        if (!fileName.endsWith(".xlsx") && !fileName.endsWith(".xls") && !fileName.endsWith(".csv")) {
+            throw new WrappedException(BizEnums.CUSTOM_ERROR,"文件格式错误，仅支持xlsx/xls/csv");
+        }
+    }
+
+
+    /**
+     * 数据校验
+     * @param dataList
+     * @Author sheng.lin
+     * @Date 2025/8/5
+     * @return: java.util.List<java.lang.String>
+     * @Version  1.0
+     * @修改记录
+     */
+    private List<String> validateData(List<SysFileDTO> dataList) {
+        return null;
+    }
 
 }

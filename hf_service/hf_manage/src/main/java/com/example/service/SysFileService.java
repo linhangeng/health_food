@@ -46,4 +46,7 @@ public interface SysFileService extends IService<SysFile> {
      */
     Boolean saveTestData();
 
+
+    void importFileData(MultipartFile file);
+
 }
